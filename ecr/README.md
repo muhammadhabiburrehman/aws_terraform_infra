@@ -1,6 +1,6 @@
 # ECR Terraform
 
-This folder contains Terraform code to create an ECR repository.
+This folder contains Terraform code to create an ECR repository on AWS.
 
 ## Commands to Run
 
