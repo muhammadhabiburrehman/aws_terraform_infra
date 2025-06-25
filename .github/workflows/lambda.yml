@@ -33,6 +33,9 @@ jobs:
         run: terraform init
         working-directory: ./lambda_with_github_secrets
 
+      - name: Debug environment variables
+        run: env | grep TF_VAR
+
       - name: Terraform Plan
         run: terraform plan
         working-directory: ./lambda_with_github_secrets
