@@ -1,35 +1,42 @@
-name: Deploy Lambda
+name: Terraform Lambda Deploy
 
 on:
-  workflow_dispatch
-
-env:
-  TF_VAR_aws_region: us-east-1                       # ✅ Added this
-  TF_VAR_my_secret: ${{ secrets.TF_VAR_my_secret }}  # ✅ Already present
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose deployment environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: lambda_with_github_secrets
+
+    environment:
+      name: ${{ github.event.inputs.environment }}
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up Terraform
+      - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.0
+          terraform_version: 1.4.6
 
       - name: Terraform Init
         run: terraform init
+        working-directory: ./lambda_with_github_secrets
 
       - name: Terraform Plan
         run: terraform plan
+        working-directory: ./lambda_with_github_secrets
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        working-directory: ./lambda_with_github_secrets
