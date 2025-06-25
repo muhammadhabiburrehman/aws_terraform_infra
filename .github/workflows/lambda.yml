@@ -36,7 +36,11 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
         working-directory: ./lambda_with_github_secrets
+        env:
+          TF_VAR_my_secret: ${{ secrets.my_secret }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
         working-directory: ./lambda_with_github_secrets
+        env:
+          TF_VAR_my_secret: ${{ secrets.my_secret }}
