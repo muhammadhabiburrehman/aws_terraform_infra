@@ -10,7 +10,7 @@ module "lambda" {
 }
 
 module "secrets_manager" {
-  source       = "../modules/secrets_manager"
+  source       = "./modules/secrets_manager"
   secret_name  = "lambda_env_secret"
   secret_value = var.my_secret
 }
