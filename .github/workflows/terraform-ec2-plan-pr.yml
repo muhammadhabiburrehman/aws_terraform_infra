@@ -16,6 +16,10 @@ jobs:
       run:
         working-directory: ./ec2_instance_project
 
+    env:
+      TF_VAR_subnet_id: ${{ secrets.TF_VAR_SUBNET_ID }}
+      TF_VAR_vpc_id: ${{ secrets.TF_VAR_VPC_ID }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
