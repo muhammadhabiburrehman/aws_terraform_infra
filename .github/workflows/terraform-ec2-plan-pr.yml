@@ -35,5 +35,8 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Debug TF_VARs
+        run: env | grep TF_VAR
+
       - name: Terraform Plan
         run: terraform plan
