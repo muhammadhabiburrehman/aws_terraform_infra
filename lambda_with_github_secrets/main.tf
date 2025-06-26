@@ -11,6 +11,6 @@ module "lambda" {
 
 module "secrets_manager" {
   source       = "./modules/secret_manager"
-  secret_name  = "lambda_env_secretv3"
+  secret_name  = "lambda_env_secretv4"
   secret_value = var.my_secret
 }
