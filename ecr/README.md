@@ -176,8 +176,3 @@ After completing this project, consider:
 - [ECR Credential Helper](https://github.com/awslabs/amazon-ecr-credential-helper)
 - [Dive - Docker Image Explorer](https://github.com/wagoodman/dive)
 - [Hadolint - Dockerfile Linter](https://github.com/hadolint/hadolint)
-
-
-**Happy Containerizing! 🚢**
-
-Ready to move to the next project? Check out the [Lambda with Secrets Manager](../lambda-secrets-manager/README.md) project!
