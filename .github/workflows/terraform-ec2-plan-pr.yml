@@ -1,0 +1,46 @@
+name: Terraform EC2 Plan on PR
+
+on:
+  pull_request:
+    paths:
+      - 'ec2_instance_project/**'
+
+jobs:
+  plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+
+    environment: dev
+
+    defaults:
+      run:
+        working-directory: ./ec2_instance_project
+
+    env:
+      TF_VAR_subnet_id: ${{ secrets.TF_VAR_SUBNET_ID }}
+      TF_VAR_vpc_id: ${{ secrets.TF_VAR_VPC_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Debug TF_VARs
+        run: env | grep TF_VAR
+
+      - name: Terraform Plan
+        run: terraform plan
