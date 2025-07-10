@@ -1,0 +1,33 @@
+name: Deploy EC2 via GitHub Actions with OIDC
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write 
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::905418057569:role/GitHubActionsAdminRole
+          aws-region: us-east-1
+
+      - name: Launch EC2 instance
+        run: |
+          echo "Launching EC2 instance..."
+          aws ec2 run-instances \
+            --image-id ami-0c02fb55956c7d316 \
+            --count 1 \
+          --instance-type t2.micro \
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHubOIDCTest}]' \
+            --key-name LB \
+            --security-groups default
